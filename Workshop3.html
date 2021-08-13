@@ -490,27 +490,81 @@ survey %&gt;% glimpse()</code></pre>
 
 survey_IT_au&lt;-survey %&gt;% 
   filter(country == &quot;Australia&quot; | country == &quot;australia&quot; | country == &quot;Australi&quot;) %&gt;%
-  filter(industry == &quot;Computing or Tech&quot; &amp; annual_salary&gt;80000)</code></pre>
+  filter(industry == &quot;Computing or Tech&quot; &amp; annual_salary&gt;80000)
+
+survey%&gt;%
+  filter(gender!=&quot;Man&quot;)</code></pre>
+<pre><code>## # A tibble: 21,341 × 18
+##    timestamp  how_old_are_you industry job_title  additional_cont… annual_salary
+##    &lt;chr&gt;      &lt;chr&gt;           &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;                    &lt;dbl&gt;
+##  1 4/27/2021… 25-34           Educati… Research … &lt;NA&gt;                     55000
+##  2 4/27/2021… 25-34           Computi… Change &amp; … &lt;NA&gt;                     54600
+##  3 4/27/2021… 25-34           Account… Marketing… &lt;NA&gt;                     34000
+##  4 4/27/2021… 25-34           Nonprof… Program M… &lt;NA&gt;                     62000
+##  5 4/27/2021… 25-34           Account… Accountin… &lt;NA&gt;                     60000
+##  6 4/27/2021… 25-34           Publish… Publishin… &lt;NA&gt;                     33000
+##  7 4/27/2021… 45-54           Computi… Systems A… Data developer/…        112000
+##  8 4/27/2021… 35-44           Account… Senior Ac… &lt;NA&gt;                     45000
+##  9 4/27/2021… 25-34           Nonprof… Office Ma… &lt;NA&gt;                     47500
+## 10 4/27/2021… 35-44           Educati… Deputy Ti… &lt;NA&gt;                     62000
+## # … with 21,331 more rows, and 12 more variables: other_monetary_comp &lt;dbl&gt;,
+## #   currency &lt;chr&gt;, currency_other &lt;chr&gt;, additional_context_on_income &lt;chr&gt;,
+## #   country &lt;chr&gt;, state &lt;chr&gt;, city &lt;chr&gt;,
+## #   overall_years_of_professional_experience &lt;chr&gt;,
+## #   years_of_experience_in_field &lt;chr&gt;,
+## #   highest_level_of_education_completed &lt;chr&gt;, gender &lt;chr&gt;, race &lt;chr&gt;</code></pre>
 </div>
 <div id="select" class="section level4">
 <h4>Select</h4>
 <pre class="r"><code>survey_IT_au %&gt;%
   select(how_old_are_you, job_title, annual_salary)%&gt;%
-  arrange(annual_salary)</code></pre>
+  arrange(desc(annual_salary))</code></pre>
 <pre><code>## # A tibble: 44 × 3
-##    how_old_are_you job_title                  annual_salary
-##    &lt;chr&gt;           &lt;chr&gt;                              &lt;dbl&gt;
-##  1 35-44           Web developer                      80800
-##  2 25-34           Customer Success Manager           82000
-##  3 45-54           Security Specialist                89000
-##  4 25-34           Field Marketing Specialist         90000
-##  5 18-24           Software Engineer                  90000
-##  6 35-44           Software Engineer                 100000
-##  7 25-34           Business Analyst                  100000
-##  8 35-44           Senior Project Engineer           105000
-##  9 25-34           Applications Specialist           106000
-## 10 25-34           Product Manager                   107000
+##    how_old_are_you job_title                     annual_salary
+##    &lt;chr&gt;           &lt;chr&gt;                                 &lt;dbl&gt;
+##  1 45-54           Director - Product Management        260000
+##  2 25-34           Software Engineer                    250000
+##  3 45-54           Manager Centre of excellence         230000
+##  4 45-54           Software Engineer                    220000
+##  5 45-54           Business Analyst                     210000
+##  6 35-44           Solution Architect                   200000
+##  7 45-54           Senior Developer                     197000
+##  8 35-44           Principal Consultant                 185000
+##  9 35-44           Tam                                  180000
+## 10 35-44           Software Engineering Manager         175000
 ## # … with 34 more rows</code></pre>
+<pre class="r"><code>survey %&gt;%
+  distinct(industry)</code></pre>
+<pre><code>## # A tibble: 1,069 × 1
+##    industry                      
+##    &lt;chr&gt;                         
+##  1 Education (Higher Education)  
+##  2 Computing or Tech             
+##  3 Accounting, Banking &amp; Finance 
+##  4 Nonprofits                    
+##  5 Publishing                    
+##  6 Education (Primary/Secondary) 
+##  7 Law                           
+##  8 Health care                   
+##  9 Utilities &amp; Telecommunications
+## 10 Business or Consulting        
+## # … with 1,059 more rows</code></pre>
+<pre class="r"><code>survey %&gt;%
+  count(gender, industry, sort=TRUE)</code></pre>
+<pre><code>## # A tibble: 1,292 × 3
+##    gender industry                                 n
+##    &lt;chr&gt;  &lt;chr&gt;                                &lt;int&gt;
+##  1 Woman  Computing or Tech                     2299
+##  2 Woman  Nonprofits                            2020
+##  3 Woman  Education (Higher Education)          1976
+##  4 Man    Computing or Tech                     1842
+##  5 Woman  Government and Public Administration  1525
+##  6 Woman  Health care                           1520
+##  7 Woman  Accounting, Banking &amp; Finance         1351
+##  8 Woman  Engineering or Manufacturing          1089
+##  9 Woman  Law                                    911
+## 10 Woman  Marketing, Advertising &amp; PR            905
+## # … with 1,282 more rows</code></pre>
 <pre class="r"><code>survey_IT_au %&gt;%
   select(-industry)</code></pre>
 <pre><code>## # A tibble: 44 × 17
@@ -532,6 +586,136 @@ survey_IT_au&lt;-survey %&gt;%
 ## #   overall_years_of_professional_experience &lt;chr&gt;,
 ## #   years_of_experience_in_field &lt;chr&gt;,
 ## #   highest_level_of_education_completed &lt;chr&gt;, gender &lt;chr&gt;, race &lt;chr&gt;</code></pre>
+<pre class="r"><code>survey %&gt;%count(state)</code></pre>
+<pre><code>## # A tibble: 125 × 2
+##    state                                       n
+##    &lt;chr&gt;                                   &lt;int&gt;
+##  1 Alabama                                   106
+##  2 Alabama, District of Columbia               1
+##  3 Alabama, Kansas                             1
+##  4 Alabama, Minnesota, Nevada                  1
+##  5 Alabama, Montana                            1
+##  6 Alaska                                     64
+##  7 Alaska, Idaho, Oregon, Utah, Washington     1
+##  8 Alaska, Maryland                            1
+##  9 Arizona                                   283
+## 10 Arizona, California                         2
+## # … with 115 more rows</code></pre>
+<pre class="r"><code>survey_IT_au %&gt;%
+  count(how_old_are_you, gender, sort=TRUE)</code></pre>
+<pre><code>## # A tibble: 9 × 3
+##   how_old_are_you gender         n
+##   &lt;chr&gt;           &lt;chr&gt;      &lt;int&gt;
+## 1 35-44           Man           14
+## 2 25-34           Woman          8
+## 3 45-54           Man            6
+## 4 25-34           Man            5
+## 5 35-44           Woman          4
+## 6 45-54           Woman          4
+## 7 18-24           Man            1
+## 8 35-44           Non-binary     1
+## 9 55-64           Man            1</code></pre>
+</div>
+<div id="mutate-vs-transmute" class="section level4">
+<h4>mutate vs transmute</h4>
+<pre class="r"><code>survey_IT_au&lt;-survey_IT_au %&gt;%
+  mutate(avr_salary=mean(annual_salary))
+
+survey_IT_au %&gt;%
+  group_by(city)%&gt;%
+  mutate(max_salary=max(annual_salary))%&gt;%
+  select(how_old_are_you, job_title, city, annual_salary, avr_salary, max_salary)</code></pre>
+<pre><code>## # A tibble: 44 × 6
+## # Groups:   city [7]
+##    how_old_are_you job_title          city   annual_salary avr_salary max_salary
+##    &lt;chr&gt;           &lt;chr&gt;              &lt;chr&gt;          &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+##  1 25-34           Customer Experien… Sydney        110000    141859.     250000
+##  2 25-34           Cloud Engineer     Melbo…        110000    141859.     260000
+##  3 35-44           Software Test Lead Melbo…        145000    141859.     260000
+##  4 45-54           Business Analyst   Sydney        210000    141859.     250000
+##  5 45-54           Solution Architect Melbo…        145000    141859.     260000
+##  6 35-44           software engineer  Melbo…        120000    141859.     260000
+##  7 45-54           Business Analyst   Sydney        110000    141859.     250000
+##  8 45-54           Senior Developer   Melbo…        197000    141859.     260000
+##  9 25-34           Customer Success … Melbo…        135000    141859.     260000
+## 10 35-44           Software Team Lead Adela…        137000    141859.     137000
+## # … with 34 more rows</code></pre>
+<pre class="r"><code>survey_IT_au%&gt;%
+  group_by(gender)%&gt;%
+  summarise(min_salary=min(annual_salary))</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   gender     min_salary
+##   &lt;chr&gt;           &lt;dbl&gt;
+## 1 Man             80800
+## 2 Non-binary     200000
+## 3 Woman           82000</code></pre>
+<pre class="r"><code>survey_IT_au%&gt;%
+  group_by(gender,city)%&gt;%
+  summarise(min_salary=min(annual_salary),
+            max_salary=max(annual_salary),
+            avr_salary=mean(annual_salary))%&gt;%
+  arrange(desc(min_salary))%&gt;%
+  ungroup()</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;gender&#39;. You can override using the `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 12 × 5
+##    gender     city      min_salary max_salary avr_salary
+##    &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+##  1 Woman      Brisbane      230000     230000    230000 
+##  2 Non-binary Canberra      200000     200000    200000 
+##  3 Man        Canberra      180000     180000    180000 
+##  4 Woman      Adelaide      137000     137000    137000 
+##  5 Man        Adelaide      130000     130000    130000 
+##  6 Man        Perth         110000     110000    110000 
+##  7 Man        Sydney        110000     220000    152375 
+##  8 Man        Mebourne       90000      90000     90000 
+##  9 Woman      Sydney         90000     250000    148875 
+## 10 Man        Brisbane       89000     167000    123000 
+## 11 Woman      Melbourne      82000     145000    115333.
+## 12 Man        Melbourne      80800     260000    147200</code></pre>
+<pre class="r"><code>survey_IT_au%&gt;%
+  mutate(age=parse_number(how_old_are_you))</code></pre>
+<pre><code>## # A tibble: 44 × 20
+##    timestamp  how_old_are_you industry job_title additional_conte… annual_salary
+##    &lt;chr&gt;      &lt;chr&gt;           &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;                     &lt;dbl&gt;
+##  1 4/27/2021… 25-34           Computi… Customer… &lt;NA&gt;                     110000
+##  2 4/27/2021… 25-34           Computi… Cloud En… &lt;NA&gt;                     110000
+##  3 4/27/2021… 35-44           Computi… Software… &lt;NA&gt;                     145000
+##  4 4/27/2021… 45-54           Computi… Business… IT - system requ…        210000
+##  5 4/27/2021… 45-54           Computi… Solution… &lt;NA&gt;                     145000
+##  6 4/27/2021… 35-44           Computi… software… &lt;NA&gt;                     120000
+##  7 4/27/2021… 45-54           Computi… Business… IT based and wor…        110000
+##  8 4/27/2021… 45-54           Computi… Senior D… &lt;NA&gt;                     197000
+##  9 4/27/2021… 25-34           Computi… Customer… &lt;NA&gt;                     135000
+## 10 4/27/2021… 35-44           Computi… Software… &lt;NA&gt;                     137000
+## # … with 34 more rows, and 14 more variables: other_monetary_comp &lt;dbl&gt;,
+## #   currency &lt;chr&gt;, currency_other &lt;chr&gt;, additional_context_on_income &lt;chr&gt;,
+## #   country &lt;chr&gt;, state &lt;chr&gt;, city &lt;chr&gt;,
+## #   overall_years_of_professional_experience &lt;chr&gt;,
+## #   years_of_experience_in_field &lt;chr&gt;,
+## #   highest_level_of_education_completed &lt;chr&gt;, gender &lt;chr&gt;, race &lt;chr&gt;,
+## #   avr_salary &lt;dbl&gt;, age &lt;dbl&gt;</code></pre>
+<pre class="r"><code>survey_IT_au%&gt;%
+  mutate(business_analyst = case_when(job_title==&quot;Business Analyst&quot; ~ &quot;Yes&quot;, T~&quot;No&quot;))</code></pre>
+<pre><code>## # A tibble: 44 × 20
+##    timestamp  how_old_are_you industry job_title additional_conte… annual_salary
+##    &lt;chr&gt;      &lt;chr&gt;           &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;                     &lt;dbl&gt;
+##  1 4/27/2021… 25-34           Computi… Customer… &lt;NA&gt;                     110000
+##  2 4/27/2021… 25-34           Computi… Cloud En… &lt;NA&gt;                     110000
+##  3 4/27/2021… 35-44           Computi… Software… &lt;NA&gt;                     145000
+##  4 4/27/2021… 45-54           Computi… Business… IT - system requ…        210000
+##  5 4/27/2021… 45-54           Computi… Solution… &lt;NA&gt;                     145000
+##  6 4/27/2021… 35-44           Computi… software… &lt;NA&gt;                     120000
+##  7 4/27/2021… 45-54           Computi… Business… IT based and wor…        110000
+##  8 4/27/2021… 45-54           Computi… Senior D… &lt;NA&gt;                     197000
+##  9 4/27/2021… 25-34           Computi… Customer… &lt;NA&gt;                     135000
+## 10 4/27/2021… 35-44           Computi… Software… &lt;NA&gt;                     137000
+## # … with 34 more rows, and 14 more variables: other_monetary_comp &lt;dbl&gt;,
+## #   currency &lt;chr&gt;, currency_other &lt;chr&gt;, additional_context_on_income &lt;chr&gt;,
+## #   country &lt;chr&gt;, state &lt;chr&gt;, city &lt;chr&gt;,
+## #   overall_years_of_professional_experience &lt;chr&gt;,
+## #   years_of_experience_in_field &lt;chr&gt;,
+## #   highest_level_of_education_completed &lt;chr&gt;, gender &lt;chr&gt;, race &lt;chr&gt;,
+## #   avr_salary &lt;dbl&gt;, business_analyst &lt;chr&gt;</code></pre>
 </div>
 </div>
 
